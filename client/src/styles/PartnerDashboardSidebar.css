@@ -1,0 +1,136 @@
+/* Base layout */
+.partner-layout {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, Arial, sans-serif;
+  background-color: #f4f6f9;
+}
+
+/* Sidebar */
+.partner-sidebar {
+  width: 250px;
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  color: #fff;
+  padding: 30px 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translateX(0);
+}
+
+/* Sidebar hidden on mobile */
+@media (max-width: 768px) {
+  .partner-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .partner-sidebar.active {
+    transform: translateX(0);
+  }
+}
+
+/* Sidebar header */
+.partner-sidebar h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #ecf0f1;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 10px;
+
+  position: relative; /* needed for z-index */
+  z-index: 1200; /* above toggle button */
+}
+
+/* Navigation */
+.partner-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.partner-nav-link {
+  color: #ecf0f1;
+  text-decoration: none;
+  padding: 14px 20px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  font-size: 16px;
+  user-select: none;
+}
+
+.partner-nav-link:hover,
+.partner-nav-link:active {
+  background-color: #34495e;
+  transform: translateX(5px);
+}
+
+/* Toggle button */
+.partner-toggle-button {
+  display: none;
+  position: fixed;
+  left: 10px;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  font-size: 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1100; 
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.partner-toggle-button:hover {
+  background-color: #34495e;
+}
+
+@media (max-width: 768px) {
+  .partner-toggle-button {
+    display: block;
+    margin: 0px;
+  }
+}
+
+/* Content */
+.partner-content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 30px;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+  min-height: 100vh;
+}
+
+/* Content adjustment on mobile */
+@media (max-width: 768px) {
+  .partner-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+/* Overlay for mobile menu */
+.partner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 999;
+  display: none;
+}
+
+.partner-overlay.active {
+  display: block;
+}
