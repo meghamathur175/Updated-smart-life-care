@@ -10,6 +10,7 @@ import ResetPassword from "../pages/ResetPassword";
 import TrackAmbulancePage from "../pages/TrackAmbulancePage";
 import RequestAmbulance from "../pages/RequestAmbulance";
 import NearbyHospitals from '../pages/NearbyHospitals';
+import BookAmbulance from '../pages/BookAmbulance';
 
 // Partner Dashboard
 import PartnerSidebar from "../components/PartnerDashboardSidebar";
@@ -24,6 +25,12 @@ import PartnerOnboardingAndCommission from "../pages3/PartnerOnboardingAndCommis
 import CommissionManagement from "../pages3/CommissionManagement";
 import AdminReports from "../pages3/AdminReports";
 
+// Driver Dashboard
+import DriverSidebar from "../components/DriverDashboardSidebar";
+import DriverHome from "../pages4/DriverHome";
+import DriverProfile from "../pages4/DriverProfile";
+import DriverTrips from "../pages4/DriverTrips";
+
 const AllRoutes = () => {
   return (
     <Routes>
@@ -35,6 +42,7 @@ const AllRoutes = () => {
       <Route path="/resetPassword/:token" element={<ResetPassword />} />
       <Route path="/request-ambulance" element={<RequestAmbulance />} />
       <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
+      <Route path="/nearby-hospitals/book-ambulance" element={<BookAmbulance/>}></Route>
       <Route path="/track-ambulance" element={<TrackAmbulancePage />} />
 
       {/* Partner Dashboard with Sidebar Layout */}
@@ -45,10 +53,18 @@ const AllRoutes = () => {
         <Route path="payments" element={<PaymentHistory />} />
       </Route>
 
+      {/* Admin Dashboard */}
       <Route path="/admin-dashboard" element={<AdminSidebar/>}>
         <Route path="partner-onbording" element={<PartnerOnboardingAndCommission />} />
         <Route path="commission-management" element={<CommissionManagement />} />
         <Route path="admin-reports" element={<AdminReports />} />
+      </Route>
+
+      {/* Driver Dashboard */}
+      <Route path="/driver-dashboard" element={<DriverSidebar />}>
+        <Route index element={<DriverHome />} />
+        <Route path="profile" element={<DriverProfile />} />
+        <Route path="trips" element={<DriverTrips />} />
       </Route>
     </Routes>
   );
