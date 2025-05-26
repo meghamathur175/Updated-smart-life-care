@@ -9,6 +9,7 @@ import SignUp from "../pages/SignUp";
 import ResetPassword from "../pages/ResetPassword";
 import TrackAmbulancePage from "../pages/TrackAmbulancePage";
 import RequestAmbulance from "../pages/RequestAmbulance";
+import NearbyHospitals from '../pages/NearbyHospitals';
 
 // Partner Dashboard
 import PartnerSidebar from "../components/PartnerDashboardSidebar";
@@ -33,6 +34,7 @@ const AllRoutes = () => {
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword/:token" element={<ResetPassword />} />
       <Route path="/request-ambulance" element={<RequestAmbulance />} />
+      <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
       <Route path="/track-ambulance" element={<TrackAmbulancePage />} />
 
       {/* Partner Dashboard with Sidebar Layout */}
