@@ -8,6 +8,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showSubRoleModal, setShowSubRoleModal] = useState(false); // 🔥 NEW
   const navigate = useNavigate();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,15 +42,29 @@ const SignIn = () => {
         localStorage.setItem("userToken", data.token);
         alert(`Login Successful as ${selectedRole}!`);
 
-        if (selectedRole === "Admin") navigate("/admin-dashboard");
-        else if (selectedRole === "Partner") navigate("/partner-dashboard");
-        else navigate("/");
+        // Show sub-role modal if Partner
+        if (selectedRole === "Partner") {
+          setShowSubRoleModal(true);
+        } else if (selectedRole === "Admin") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/");
+        }
       } else {
         alert(data.message || "Invalid credentials. Try again.");
       }
     } catch (error) {
       console.error("Error logging in:", error);
       alert("Unable to login. Please check your backend.");
+    }
+  };
+
+  const handleSubRoleSelect = (subRole) => {
+    setShowSubRoleModal(false);
+    if (subRole === "Partner") {
+      navigate("/partner-dashboard");
+    } else if (subRole === "Driver") {
+      navigate("/driver-dashboard"); // Navigate to Driver dashboard
     }
   };
 
@@ -115,7 +130,6 @@ const SignIn = () => {
                 </span>
               </div>
 
-
               <button type="submit" className="btn-primary">LogIn</button>
 
               <div className="forgot-password">
@@ -126,13 +140,11 @@ const SignIn = () => {
                 Don't have an account?{" "}
                 <Link
                   to="/signup"
-                  state={{ selectedRole: selectedRole || "User" }}  // Pass selectedRole, default "User"
+                  state={{ selectedRole: selectedRole || "User" }}
                 >
                   Register
                 </Link>
               </div>
-
-
 
               <div className="back-to-role">
                 <button type="button" onClick={() => setStep(1)} className="btn-secondary">
@@ -150,6 +162,17 @@ const SignIn = () => {
           </a>
         </div>
       </div>
+
+      {/* 🔥 Sub-Role Modal */}
+      {showSubRoleModal && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <h4>Select Your Role</h4>
+            <button onClick={() => handleSubRoleSelect("Partner")} className="btn-primary">Partner</button>
+            <button onClick={() => handleSubRoleSelect("Driver")} className="btn-primary">Driver</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
