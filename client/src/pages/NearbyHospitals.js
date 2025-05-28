@@ -1,245 +1,293 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useJsApiLoader } from "@react-google-maps/api";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  GoogleMap,
-  useJsApiLoader,
-  DirectionsRenderer,
-  Marker,
-} from "@react-google-maps/api";
-import "../styles/BookAmbulance.css";
-import pickupIcon from "../images/pickup-icon.png";
-import dropOffIcon from "../images/drop-off-icon.png";
+import "../styles/NearbyHospitals.css";
 
-const containerStyle = {
-  width: "100%",
-  height: "100vh",
-};
+const libraries = ["places"];
 
-function BookAmbulance() {
+function NearbyHospitalsList() {
   const { state } = useLocation();
+  const pickupLocation = state?.pickup || "";
   const navigate = useNavigate();
-  const [navigating, setNavigating] = useState(false);
-  const hospital = state?.hospital;
-  const pickupLocation = state?.pickupLocation;
-  const destinationLocation = state?.destAddress;
 
-  // pickupLocation is address string, so geocode it to lat/lng for marker
-  const [pickupCoords, setPickupCoords] = useState(null);
+  const [navigating, setNavigating] = useState(false);
+  const [hospitals, setHospitals] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [searchInitiated, setSearchInitiated] = useState(false);
+  const [error, setError] = useState(null);
+
+  const containerRef = useRef(null); // dummy div ref for PlacesService
 
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries: ["places"],
+    libraries,
   });
 
-  const [directionsResponse, setDirectionsResponse] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
-  const [showPaymentMethod, setShowPaymentMethod] = useState(false);
+  // Enrich hospital data with driving distance, duration and cost within 5km
+  const enrichHospitals = useCallback(
+    async (hospitalsList, originLocation) => {
+      const directionsService = new window.google.maps.DirectionsService();
 
-  // Geocode pickup location to coordinates
-  const geocodePickup = useCallback(() => {
-    if (!pickupLocation || !isLoaded) return;
+      const enrichedList = await Promise.all(
+        hospitalsList.map(
+          (hospital) =>
+            new Promise((resolve) => {
+              directionsService.route(
+                {
+                  origin: originLocation,
+                  destination: hospital.geometry.location,
+                  travelMode: "DRIVING",
+                },
+                (result, status) => {
+                  if (
+                    status === "OK" &&
+                    result?.routes?.[0]?.legs?.[0]
+                  ) {
+                    const leg = result.routes[0].legs[0];
+                    const km = parseFloat(
+                      leg.distance.text
+                        .replace(/,/g, "")
+                        .replace("km", "")
+                        .trim()
+                    );
+
+                    if (km <= 5) {
+                      resolve({
+                        ...hospital,
+                        distance: leg.distance.text,
+                        duration: leg.duration.text,
+                        cost: isNaN(km) ? "N/A" : `₹${Math.ceil(km * 45)}`,
+                      });
+                    } else {
+                      // Exclude hospitals > 5km
+                      resolve(null);
+                    }
+                  } else {
+                    // If unable to get route info, resolve with defaults
+                    resolve({
+                      ...hospital,
+                      distance: "N/A",
+                      duration: "N/A",
+                      cost: "N/A",
+                    });
+                  }
+                }
+              );
+            })
+        )
+      );
+
+      // Filter out nulls (hospitals > 5km)
+      return enrichedList.filter((h) => h != null);
+    },
+    []
+  );
+
+  // Main function to search hospitals by pickup location address
+  const searchByAddress = useCallback(() => {
+    if (!pickupLocation.trim()) {
+      setError("Pickup location is not provided.");
+      return;
+    }
+
+    if (!containerRef.current) {
+      setError("Map container not ready yet, please wait.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setSearchInitiated(true);
 
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ address: pickupLocation }, (results, status) => {
       if (status === "OK" && results[0]) {
         const location = results[0].geometry.location;
-        setPickupCoords({ lat: location.lat(), lng: location.lng() });
+        const request = {
+          location,
+          radius: 5000, // 5km
+          type: "hospital",
+        };
+
+        const allHospitals = [];
+
+        const fetchHospitals = (service, request, location) => {
+          const processPage = (results, status, pagination) => {
+            if (
+              status === window.google.maps.places.PlacesServiceStatus.OK &&
+              results?.length
+            ) {
+              allHospitals.push(...results);
+
+              if (pagination && pagination.hasNextPage) {
+                setTimeout(() => pagination.nextPage(), 2000); // Respect rate limits
+              } else {
+                enrichHospitals(allHospitals, location)
+                  .then((enriched) => {
+                    if (enriched.length === 0) {
+                      setError("No hospitals found within 5 km driving distance.");
+                      setHospitals([]);
+                    } else {
+                      setHospitals(enriched);
+                    }
+                    setLoading(false);
+                  })
+                  .catch(() => {
+                    setError("Failed to enrich hospital data.");
+                    setLoading(false);
+                  });
+              }
+            } else {
+              setHospitals([]);
+              setLoading(false);
+              setError("No hospitals found nearby.");
+            }
+          };
+
+          service.nearbySearch(request, processPage);
+        };
+
+        const service = new window.google.maps.places.PlacesService(
+          containerRef.current
+        );
+
+        fetchHospitals(service, request, location);
       } else {
-        console.error("Failed to geocode pickup location:", status);
-        setPickupCoords(null);
+        setLoading(false);
+        setHospitals([]);
+        setError("Pickup location not found. Please check the location.");
       }
     });
-  }, [pickupLocation, isLoaded]);
+  }, [pickupLocation, enrichHospitals]);
 
-  // destination location address is string, so geocode it to lat/lng for marker
-  const [destinationCoords, setdestinationCoords] = useState(null);
-
-  // Geocode destination location to coordinates
-  const geocodeDestination = useCallback(() => {
-    if (!destinationLocation || !isLoaded) return;
-
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ address: destinationLocation }, (results, status) => {
-      if (status === "OK" && results[0]) {
-        const location = results[0].geometry.location;
-        setdestinationCoords({ lat: location.lat(), lng: location.lng() });
-      } else {
-        console.error("Failed to geocode pickup location:", status);
-        setdestinationCoords(null);
-      }
-    });
-  }, [destinationLocation, isLoaded]);
-
-  const calculateRoute = useCallback(() => {
-    if (!hospital || !pickupCoords || !isLoaded) return;
-
-    const directionsService = new window.google.maps.DirectionsService();
-    directionsService.route(
-      {
-        origin: pickupCoords,
-        destination: hospital.vicinity,
-        travelMode: window.google.maps.TravelMode.DRIVING,
-      },
-      (result, status) => {
-        if (status === "OK") {
-          setDirectionsResponse(result);
-        } else {
-          console.error("Directions request failed:", status);
-        }
-      }
-    );
-  }, [hospital, pickupCoords, isLoaded]);
-
-  const navigateToTrackAmbulancePage = () => {
+  // Navigate to book ambulance page with hospital details
+  const navigateToBookAmbulancePage = (hospital) => {
+    if (navigating) return; // prevent double clicks
     setNavigating(true);
 
     setTimeout(() => {
-      navigate("/track-ambulance");
+      const hospitalData = {
+        place_id: hospital.place_id,
+        name: hospital.name,
+        vicinity: hospital.vicinity,
+        distance: hospital.distance,
+        duration: hospital.duration,
+        cost: hospital.cost,
+        rating: hospital.rating,
+        geometry: {
+          location: {
+            lat: hospital.geometry.location.lat(),
+            lng: hospital.geometry.location.lng(),
+          },
+        },
+      };
+
+      navigate("/nearby-hospitals/book-ambulance", {
+        state: {
+          hospital: hospitalData,
+          pickupLocation,
+          destAddress: hospital.vicinity,
+        },
+      });
     }, 1000);
-  }
-
-  useEffect(() => {
-    if (pickupLocation) geocodePickup();
-  }, [geocodePickup]);
-
-  useEffect(() => {
-    if (destinationLocation) geocodeDestination();
-  }, [geocodeDestination]);
-
-
-  useEffect(() => {
-    calculateRoute();
-  }, [calculateRoute]);
-
-  const handleBookAmbulance = () => {
-    setShowPopup(true);
   };
 
-  const handlePaymentMethod = () => {
-    setShowPaymentMethod(true);
-  }
+  // Run search when component mounts or pickupLocation changes
+  useEffect(() => {
+    if (pickupLocation && isLoaded && !searchInitiated) {
+      searchByAddress();
+    }
+  }, [pickupLocation, isLoaded, searchInitiated, searchByAddress]);
 
-  if (loadError) return <div>Error loading map</div>;
-  // if (!isLoaded) return <div>Loading map...</div>;
-  if (!isLoaded) {
-  return (
-    <div className="map-loading">
-      <div className="map-loading-spinner" />
-      <p>Loading map...</p>
-    </div>
-  );
-}
-
-  // Default center: use pickupCoords if available, else fallback to India center
-  const centerPosition = pickupCoords || { lat: 20.5937, lng: 78.9629 };
+  if (loadError)
+    return (
+      <div className="hospitals-container">
+        <h2>Error loading Google Maps API</h2>
+      </div>
+    );
 
   return (
-    <div className="google-maps-layout">
-      <div className="sidebar">
-        <h2>Book Ambulance</h2>
-        <div className="info">
-          <p>
-            <strong>Pickup:</strong> {pickupLocation}
+    <div className="hospitals-container">
+      <h2>Nearby Hospitals</h2>
+      <p>
+        <strong>Pickup Location:</strong> {pickupLocation || "Not provided"}
+      </p>
+
+      {/* Hidden div for PlacesService initialization */}
+      <div ref={containerRef} style={{ display: "none" }} />
+
+      <div>
+        {loading && (
+          <p aria-live="polite" aria-busy="true">
+            Loading nearby hospitals...
           </p>
-          {hospital ? (
-            <>
-              <p>
-                <strong>Destination:</strong> {destinationLocation}
-              </p>
-              <p>
-                <strong>Hospital Address:</strong> {hospital.vicinity}
-              </p>
-              <p>
-                <strong>Distance:</strong> {hospital.distance}
-              </p>
-              <p>
-                <strong>Duration:</strong> {hospital.duration}
-              </p>
-              <p>
-                <strong>Estimated Cost:</strong> {hospital.cost}
-              </p>
-              <p>
-                <strong>Rating:</strong> {hospital.rating || "Not Available"}
-              </p>
-            </>
-          ) : (
-            <p>No hospital selected.</p>
-          )}
-        </div>
-        <button className="payment-method-btn" onClick={handlePaymentMethod}>Add Payment Method</button>
-        <button className="book-btn" onClick={handleBookAmbulance}>Book Ambulance</button>
-      </div>
+        )}
 
-      <div className="book-map-container">
-        <GoogleMap mapContainerStyle={containerStyle} zoom={13} center={centerPosition}>
-          {directionsResponse && (
-            <DirectionsRenderer directions={directionsResponse} options={{ suppressMarkers: true }} />
-          )}
+        {error && !loading && (
+          <p role="alert" className="error-message">
+            {error}
+          </p>
+        )}
 
-          {/* Pickup Marker */}
-          {pickupCoords && (
-            <Marker
-              position={pickupCoords}
-              icon={{
-                url: pickupIcon,
-                scaledSize: new window.google.maps.Size(46, 46),
-              }}
-              title="Pickup Location"
-            />
-          )}
+        {!loading && hospitals.length > 0 && (
+          <ul className="hospital-list">
+            {hospitals.map((hospital) => (
+              <li
+                key={hospital.place_id}
+                className={`hospital-card ${navigating ? "disabled" : ""}`}
+                onClick={() => !navigating && navigateToBookAmbulancePage(hospital)}
+                tabIndex={0}
+                role="button"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !navigating) {
+                    navigateToBookAmbulancePage(hospital);
+                  }
+                }}
+                aria-disabled={navigating}
+              >
+                <h3>{hospital.name}</h3>
+                <div className="hospital-details">
+                  <p className="hospital-detail">
+                    <span className="label">Address:</span>{" "}
+                    <span className="value" title={hospital.vicinity || "Not Available"}>
+                      {hospital.vicinity || "Not Available"}
+                    </span>
+                  </p>
+                  <p className="hospital-detail">
+                    <span className="label">Distance:</span>{" "}
+                    <span className="value">{hospital.distance}</span>
+                  </p>
+                  <p className="hospital-detail">
+                    <span className="label">Time:</span>{" "}
+                    <span className="value">{hospital.duration}</span>
+                  </p>
+                  <p className="hospital-detail">
+                    <span className="label">Cost:</span>{" "}
+                    <span className="value">{hospital.cost}</span>
+                  </p>
+                  <p className="hospital-detail">
+                    <span className="label">Rating:</span>{" "}
+                    <span className="value">{hospital.rating || "Not Available"}</span>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
 
-          {/* Hospital Marker */}
-          {destinationCoords && (
-            <Marker
-              position={destinationCoords}
-              icon={{
-                url: dropOffIcon,
-                scaledSize: new window.google.maps.Size(46, 46),
-              }}
-              title="Hospital Location"
-            />
-          )}
-        </GoogleMap>
-      </div>
+        {!loading && searchInitiated && hospitals.length === 0 && !error && (
+          <p>No hospitals found. Try a different location.</p>
+        )}
 
-      {showPaymentMethod && (
-        <div className="payment-method">
-          <div className="payment-method-content">
-            <h1>Add payment method</h1>
-            <div className="cash-method">Cash</div>
-            <div className="card-method">Card</div>
-
-            <button className="book-cancel-btn" onClick={() => setShowPaymentMethod(false)}>
-              Cancel
-            </button>
+        {navigating && (
+          <div className="overlay" role="alert" aria-live="assertive">
+            <div className="spinner" aria-label="Navigating to booking page"></div>
+            <p>Redirecting to booking page...</p>
           </div>
-        </div>
-      )
-      }
-
-      {showPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <span className="checkmark">✔️</span>
-            <h3>Ambulance Booked!</h3>
-            {navigating && (
-              <div className="book-overlay">
-                <div className="book-spinner" aria-label="Navigating to booking page"></div>
-                <p>Redirecting to track ambulance page...</p>
-              </div>
-            )
-            }
-            <button className="track-btn" onClick={navigateToTrackAmbulancePage}>
-              Track Ambulance
-            </button>
-            <button className="book-cancel-btn" onClick={() => setShowPopup(false)}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
 
-export default BookAmbulance;
+export default NearbyHospitalsList;
