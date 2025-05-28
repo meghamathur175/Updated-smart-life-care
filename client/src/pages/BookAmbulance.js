@@ -159,7 +159,7 @@ function BookAmbulance() {
                 <strong>Estimated Cost:</strong> {hospital.cost}
               </p>
               <p>
-                <strong>Rating:</strong> {hospital.rating}
+                <strong>Rating:</strong> {hospital.rating || "Not Available"}
               </p>
             </>
           ) : (
