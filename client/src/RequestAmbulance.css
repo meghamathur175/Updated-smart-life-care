@@ -1,0 +1,551 @@
+/* ===== Global Styles ===== */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+/* ===== Layout Container ===== */
+.request-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===== Fixed Navbar ===== */
+.fixed-navbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Navbar ===== */
+.request-navbar {
+  background-color: #fff;
+  padding: 12px 30px;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  margin-top: 18px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.request-navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.request-navbar-logo {
+  position: absolute;
+  left: 0;
+  transform: translateX(-50%);
+}
+
+.request-navbar-logo h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2563eb;
+  margin: 0;
+}
+
+/* ===== Navbar Links ===== */
+.request-navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: auto;
+  overflow-y: auto;
+}
+
+.request-navbar-links.open {
+  display: block;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  z-index: 1100;
+}
+
+.request-nav-link {
+  font-size: 15px;
+  font-weight: 550;
+  color: #334155;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 6px;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+.request-nav-link:hover,
+.request-nav-link:focus {
+  background-color: #e0e7ff;
+  color: #0077ff;
+  outline: none;
+}
+
+/* ===== Hamburger Menu ===== */
+.request-menu-toggle {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.request-close-icon {
+  font-size: 30px;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+/* ===== Content Section ===== */
+.content-container {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 90px); 
+  width: 100vw;
+  overflow: hidden;
+}
+
+
+/* ===== Form Section ===== */
+.form-section {
+  background-color: #fff;
+  border-radius: 8px 0 0 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.form-box {
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px 40px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-radius: 10px;
+}
+
+.form-box h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #2563eb;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
+  outline: none;
+}
+
+button[type="submit"] {
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  background-color: #2563eb;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #1e40af;
+}
+
+/* ===== Map Section ===== */
+.map-section {
+  background-color: #f4f7ff;
+  border-radius: 0 8px 8px 0;
+  margin-left: 20px;
+  overflow: hidden;
+  height: 100%;
+  overflow-y: auto;
+  
+}
+
+/* ===== Floating Home Icon ===== */
+.request-home-icon-below {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.request-home-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  background-color: #0066ff;
+  color: white;
+  border-radius: 50%;
+  font-size: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.request-home-icon:hover,
+.request-home-icon:focus {
+  background-color: #0052cc;
+}
+
+/* Tooltip */
+.request-tooltip-text {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  visibility: hidden;
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.request-home-icon:hover .request-tooltip-text,
+.request-home-icon:focus .request-tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* ===== Utility Input/Button Container ===== */
+.input-with-button {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.location-btn {
+  background-color: #2563eb;
+  color: white;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.location-btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* ===== Distance Info Box ===== */
+.distance-info {
+  margin-top: 15px;
+  padding: 12px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f0f4ff;
+  border: 1px solid #cbdafe;
+  border-radius: 8px;
+}
+
+.distance-info p {
+  margin: 6px 0;
+}
+
+/* ===== Navigation & Ride Button ===== */
+.navigation-link,
+.start-ride-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.navigation-link {
+  background-color: #2563eb;
+}
+
+.navigation-link:hover {
+  background-color: #1e40af;
+}
+
+.start-ride-btn {
+  background-color: #2563eb;
+}
+
+.start-ride-btn:hover {
+  background-color: #1e4ed8;
+}
+
+/* ===== Scrollbar Customization ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ===== Hospital Suggestion List ===== */
+.hospital-suggestions {
+  max-height: 150px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  margin-top: 4px;
+  padding: 0;
+  list-style: none;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
+
+.hospital-option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.hospital-option:hover,
+.hospital-option:focus {
+  background-color: #2563eb;
+  color: white;
+  outline: none;
+}
+
+/* ===== Responsive Design ===== */
+/* ===== Responsive Design ===== */
+@media (max-width: 900px) {
+  html, body {
+    overflow: auto;
+    height: auto;
+  }
+
+  .content-container {
+    flex-direction: column;
+    overflow: visible;
+    height: auto; /* allow height to grow with content */
+  }
+
+  .form-section,
+  .map-section {
+    width: 100%;
+    height: auto; /* stack vertically and height adjusts */
+  }
+
+  .map-section {
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+  /* Navbar links toggle */
+  .request-navbar-links {
+    display: none; /* hide by default */
+    flex-direction: column;
+    position: absolute;
+    top: 50px; /* just below navbar */
+    left: 0;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    z-index: 1100;
+  }
+
+  .request-navbar-links.open {
+    display: flex;
+  }
+
+  .request-menu-toggle {
+    display: block; /* show hamburger */
+  }
+
+  .request-navbar-content {
+    justify-content: space-between;
+  }
+
+  .request-navbar-logo {
+    position: static;
+    transform: none;
+  }
+}
+
+/* === Enhanced Responsive Layout === */
+@media (max-width: 768px) {
+  html, body {
+    overflow: auto;
+    height: auto;
+  }
+
+  .content-container {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .form-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .form-section {
+    padding: 10px 0;
+  }
+
+  .form-box h2 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .request-navbar-logo h2 {
+    font-size: 24px;
+  }
+
+  .request-navbar-links {
+    gap: 10px;
+  }
+
+  .hospital-suggestions {
+    max-height: 120px;
+    font-size: 13px;
+  }
+
+  .request-home-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .request-tooltip-text {
+    font-size: 11px;
+  }
+
+  .map-section {
+    margin-top: 20px;
+    margin-right: 20px;
+    height: 50vh;
+  }
+}
+
+/* === Smallest Mobile Screens === */
+@media (max-width: 480px) {
+  html, body {
+    overflow: auto;
+    height: auto;
+  }
+
+  .content-container {
+    flex-direction: column;
+    overflow: visible;
+  }
+  
+  .form-box h2 {
+    font-size: 20px;
+  }
+
+  input[type="text"],
+  select {
+    font-size: 12px;
+    padding: 10px 14px;
+  }
+
+  button[type="submit"],
+  .location-btn {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .distance-info {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .navigation-link,
+  .start-ride-btn {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .request-navbar {
+    padding: 8px 16px;
+    margin-top: 0; /* remove margin-top for better mobile spacing */
+  }
+
+  .request-navbar-links.open {
+    top: 50px; /* align with navbar */
+  }
+
+  .request-navbar-logo h2 {
+    font-size: 20px;
+  }
+
+  .map-section {
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+}
