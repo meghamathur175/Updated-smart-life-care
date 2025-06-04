@@ -255,7 +255,7 @@ export default function AdminDashboard() {
                 <td data-label="Name">{p.name}</td>
                 <td data-label="Location">{p.location}</td>
                 <td data-label="Service Areas">{p.serviceAreas}</td>
-                <td data-label="Commission">{p.pendingRequests.length}</td>
+                <td data-label="Requests">{p.pendingRequests.length}</td>
                 <td data-label="Commission">{p.commission}%</td>
                 <td data-label="" className="admin-btns-container">
                   <button className="poa-edit-btn" onClick={() => handleEdit(p)}>
