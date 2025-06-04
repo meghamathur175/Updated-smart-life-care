@@ -1,57 +1,58 @@
-/* Wrapper and Card */
+/* Fullscreen Wrapper */
 .commission-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center; /* Center vertically */
-  padding: 0;
-  background: #f0f2f5;
+  align-items: flex-start;
+  background-color: #f9fafb;
   min-height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
+/* Fullscreen Card */
 .commission-card {
   background-color: #ffffff;
-  border-radius: 0; /* Fullscreen layout */
-  box-shadow: none; /* Optional: remove shadow for fullscreen */
   width: 100vw;
   height: 100vh;
-  padding: 40px;
+  padding: 20px 30px;
   box-sizing: border-box;
-  overflow-y: auto; /* Scrollable if needed */
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  overflow: hidden;
 }
 
 /* Title */
 .commission-card h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 30px;
   text-align: center;
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 32px;
 }
 
 /* Partner List */
 .partner-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  flex: 1; /* Grow to fill remaining space */
+  gap: 10px;
+  flex: 1;
   overflow-y: auto;
 }
 
+/* Partner Item */
 .partner-item {
-  display: flex;
-  flex-direction: column;
-  padding: 16px 20px;
-  background: #f9f9f9;
+  background-color: #f3f4f6;
   border-radius: 10px;
-  transition: background 0.3s ease;
+  padding: 18px 24px;
+  transition: background-color 0.2s ease;
 }
 
 .partner-item:hover {
-  background: #eef2f5;
+  background-color: #e5e7eb;
 }
 
+/* Partner Info Row */
 .partner-info {
   display: flex;
   align-items: center;
@@ -59,26 +60,35 @@
   flex-wrap: wrap;
 }
 
+/* Partner Name */
 .partner-name {
-  font-weight: 600;
-  font-size: 17px;
-  color: #222;
+  font-size: 18px;
+  font-weight: 500;
+  color: #1f2937;
   flex: 1;
-  min-width: 120px;
+  min-width: 150px;
 }
 
+/* Commission Input */
 .partner-info input {
-  width: 80px;
-  padding: 8px 10px;
-  font-size: 15px;
-  border: 1px solid #ccc;
+  width: 100px;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #d1d5db;
   border-radius: 6px;
-  margin: 0 8px;
+  background-color: #ffffff;
+  outline: none;
 }
 
+.partner-info input:focus {
+  border-color: #2563eb;
+}
+
+/* % Label */
 .percent-label {
-  color: #666;
-  font-size: 15px;
+  font-size: 16px;
+  color: #4b5563;
+  margin-left: 6px;
   white-space: nowrap;
 }
 
@@ -86,14 +96,14 @@
 .note {
   margin-top: 24px;
   font-size: 14px;
+  color: #6b7280;
   text-align: center;
-  color: #777;
 }
 
 /* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .commission-card {
-    padding: 24px 16px;
+    padding: 24px 20px;
   }
 
   .partner-info {
@@ -107,6 +117,6 @@
   }
 
   .percent-label {
-    align-self: flex-start;
+    margin-left: 0;
   }
 }
