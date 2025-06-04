@@ -6,17 +6,18 @@
   background-color: #f9fafb;
   min-height: 100vh;
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
   overflow: hidden;
 }
 
 /* Fullscreen Card */
 .commission-card {
   background-color: #ffffff;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   padding: 20px 30px;
   box-sizing: border-box;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -27,20 +28,28 @@
   font-size: 32px;
   font-weight: 600;
   color: #111827;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-/* Partner List */
+/* Scrollable Partner List */
 .partner-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   flex: 1;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  /* Hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* Partner Item */
+.partner-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Partner Card */
 .partner-item {
   background-color: #f3f4f6;
   border-radius: 10px;
@@ -52,24 +61,25 @@
   background-color: #e5e7eb;
 }
 
-/* Partner Info Row */
+/* Info Row */
 .partner-info {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
-/* Partner Name */
+/* Name */
 .partner-name {
   font-size: 18px;
   font-weight: 500;
   color: #1f2937;
   flex: 1;
-  min-width: 150px;
+  min-width: 140px;
 }
 
-/* Commission Input */
+/* Input */
 .partner-info input {
   width: 100px;
   padding: 8px 12px;
@@ -88,28 +98,63 @@
 .percent-label {
   font-size: 16px;
   color: #4b5563;
-  margin-left: 6px;
   white-space: nowrap;
 }
 
-/* Note */
+/* Footer Note */
 .note {
-  margin-top: 24px;
   font-size: 14px;
   color: #6b7280;
   text-align: center;
+  padding-top: 10px;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spinner-wrapper button {
+  background-color: #e5e7eb;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #374151;
+}
+
+.spinner-wrapper button:hover {
+  background-color: #d1d5db;
+}
+
+/* Restore increment/decrement arrows on mobile browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: auto;
+  margin: 0;
+}
+
+input[type="number"] {
+  -webkit-appearance: number-input;
+  -moz-appearance: number-input;
+  appearance: number-input;
+}
+
+.spinner-wrapper button {
+  display: none;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .commission-card {
-    padding: 24px 20px;
+    padding: 16px 16px;
   }
 
   .partner-info {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    align-items: stretch;
   }
 
   .partner-info input {
@@ -118,5 +163,9 @@
 
   .percent-label {
     margin-left: 0;
+  }
+
+  .spinner-wrapper button {
+    display: inline-block;
   }
 }
