@@ -1,0 +1,110 @@
+/* PartnerDrivers.css */
+
+.partner-drivers-list,
+.partner-driver-detail-view {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.partner-drivers-list h2,
+.partner-driver-detail-view h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ccc;
+}
+
+/* Table Header */
+thead {
+    background-color: #34495e;
+    color: #ecf0f1;
+}
+
+thead th {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    border-right: 1px solid #4d637a;
+}
+
+/* Rounded corners only on the outer edges */
+thead th:first-child {
+    border-top-left-radius: 8px;
+}
+
+thead th:last-child {
+    border-top-right-radius: 8px;
+    border-right: none;
+}
+
+th,
+td {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 15px;
+    color: #2c3e50;
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #f0f0f0;
+}
+
+/* Remove right border for last column */
+tr td:last-child,
+tr th:last-child {
+    border-right: none;
+}
+
+/* Hover effect */
+tbody tr {
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+tbody tr:hover {
+    background-color: #eaf4ff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transform: scale(1.01);
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+}
+
+/* Button Styles */
+button {
+    margin-top: 20px;
+    padding: 10px 18px;
+    background-color: #2980b9;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1c5980;
+}
+
+/* Detail View Styling */
+.partner-driver-detail-view p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #34495e;
+    margin: 8px 0;
+}

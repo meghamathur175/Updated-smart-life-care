@@ -1,0 +1,128 @@
+/* App.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.app {
+    text-align: center;
+}
+
+.hero {
+    background-color: #e0f2fe;
+    padding: 80px 20px;
+}
+
+.hero h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #4b5563;
+    margin-bottom: 30px;
+}
+
+.hero button {
+    background-color: #2563eb;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.hero button:hover {
+    background-color: #1e40af;
+}
+
+.how-it-works {
+    padding: 60px 20px;
+}
+
+.how-it-works h2 {
+    font-size: 28px;
+    margin-bottom: 40px;
+    color: #1f2937;
+}
+
+.steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.step {
+    background-color: #fff;
+    padding: 20px;
+    width: 250px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease;
+}
+
+.step:hover {
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.icon {
+    font-size: 36px;
+    color: #2563eb;
+    margin-bottom: 12px;
+}
+
+.step h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #374151;
+}
+
+.step p {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.stats {
+    background-color: #f3f4f6;
+    padding: 60px 20px;
+}
+
+.stats h2 {
+    font-size: 28px;
+    margin-bottom: 40px;
+    color: #1f2937;
+}
+
+.stat-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.stat {
+    background-color: #fff;
+    padding: 20px;
+    width: 200px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stat h3 {
+    font-size: 24px;
+    color: #2563eb;
+    margin-bottom: 10px;
+}
+
+.stat p {
+    font-size: 16px;
+    color: #374151;
+}
