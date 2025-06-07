@@ -1,0 +1,78 @@
+.partner-driver-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: #1e293b;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.partner-driver-form h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #0f172a;
+}
+
+.partner-driver-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.partner-driver-form input {
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.partner-driver-form input:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+    outline: none;
+}
+
+.partner-driver-form button {
+    padding: 0.75rem 1rem;
+    background-color: #38bdf8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.partner-driver-form button:hover {
+    background-color: #0ea5e9;
+}
+
+/* Success & Error Messages */
+.success-msg {
+    color: #16a34a;
+    background-color: #dcfce7;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.error-msg {
+    color: #dc2626;
+    background-color: #fee2e2;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .partner-driver-form {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+}
