@@ -1,0 +1,43 @@
+.partner-driver-detail-view {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 32px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.partner-driver-detail-view h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.partner-driver-detail-view p {
+    margin: 8px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.partner-driver-detail-view p strong {
+    font-weight: 600;
+}
+
+.partner-driver-detail-view button {
+    display: block;
+    margin: 30px auto 0;
+    padding: 10px 24px;
+    font-size: 16px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.partner-driver-detail-view button:hover {
+    background-color: #125ba1;
+}
