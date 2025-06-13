@@ -1,0 +1,162 @@
+/* Container centering the form */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f4f8;
+    padding: 1rem;
+}
+
+/* Partner registration form box */
+.partner-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Title */
+.form-title {
+    text-align: center;
+    font-size: 26px;
+    color: #111827;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Form field wrapper */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+/* Label */
+.form-label {
+    margin-bottom: 6px;
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Input field */
+.form-control {
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+/* Error message */
+.error {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #e63946;
+}
+
+/* Primary button */
+.btn-primary {
+    background-color: #1a73e8;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0f5ad3;
+}
+
+/* Full width utility */
+.full-width {
+    width: 100%;
+}
+
+/* Alert messages */
+.alert {
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .partner-form {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .form-title {
+        font-size: 22px;
+    }
+
+    .form-control {
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        padding: 10px;
+        font-size: 15px;
+    }
+}
+
+.password-group {
+  position: relative;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 40%;
+  right: 14px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  color: #888;
+}
+
+.password-toggle:hover {
+  color: #2563eb;
+}
+
+.text-danger {
+  color: #dc3545;
+  font-size: 0.85rem;
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+}

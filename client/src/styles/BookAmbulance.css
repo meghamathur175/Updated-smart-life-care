@@ -1,0 +1,413 @@
+.google-maps-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  color: #333;
+  font-size: 16px;
+}
+
+.info p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.info p strong {
+  color: #2563eb;
+}
+
+.info-item {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 450px;
+  background: #fff;
+  padding: 20px 24px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #333;
+}
+
+.sidebar h2 {
+  font-weight: 700;
+  font-size: 26px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 6px;
+}
+
+.location-info {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.icon-text {
+  display: inline-flex;
+  gap: 0px;
+}
+
+.pickup-location-icon {
+  width: 31px;
+  height: 30px;
+  vertical-align: middle;
+}
+
+.dropOff-location-icon {
+  width: 43px;
+  height: 35px;
+  vertical-align: middle;
+}
+
+label {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.book-btn {
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+  padding: 10px 10;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  margin: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.book-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.track-btn,
+.payment-method-btn {
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+  padding: 14px 40px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  margin-top: auto;
+  transition: background-color 0.3s ease;
+  display: block;
+}
+
+.track-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.book-cancel-btn {
+  background-color: grey;
+  color: white;
+  font-weight: 600;
+  padding: 7px 84px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  margin-top: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.book-cancel-btn:hover {
+  background-color: rgb(103, 102, 102);
+}
+
+
+/* MAP */
+.map-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.map-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 6px solid #ccc;
+  border-top: 6px solid #2563eb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.book-map-container {
+  flex: 1;
+  height: 100%;
+  margin-left: 20px;
+  position: relative;
+}
+
+/* Payment method */
+.payment-method {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 128, 0, 0.07);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.4s ease;
+}
+
+.payment-method-content {
+  background-color: #ffffff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.payment-method-content h1 {
+  font-size: 24px;
+  color: #020202;
+  margin-top: 10px;
+}
+
+.cash-method,
+.card-method {
+  background-color: #f1f5f9;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.cash-method:hover,
+.card-method:hover {
+  background-color: #dbeafe;
+}
+
+select {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
+  outline: none;
+}
+
+/* POPUP */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 128, 0, 0.07);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.4s ease;
+}
+
+.popup-content {
+  background-color: #ffffff;
+  padding: 60px 45px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.popup-content h3 {
+  font-size: 24px;
+  color: #27ae60;
+  margin-top: 10px;
+}
+
+.checkmark {
+  font-size: 50px;
+  color: #2ecc71;
+}
+
+.book-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  transition: opacity 0.3s ease;
+}
+
+.book-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+
+@media (max-width: 1024px) {
+  .google-maps-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    box-shadow: none;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+  }
+
+  .book-map-container {
+    height: 70vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar h2 {
+    font-size: 22px;
+  }
+
+  .info {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .book-btn,
+  .track-btn,
+  .payment-method-btn,
+  .book-cancel-btn {
+    font-size: 16px;
+    padding: 12px;
+    width: 100%;
+  }
+
+  .popup-content {
+    padding: 20px;
+  }
+
+  .popup-content h3 {
+    font-size: 20px;
+  }
+
+  .checkmark {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .info p {
+    font-size: 14px;
+  }
+
+  .book-btn,
+  .track-btn,
+  .payment-method-btn,
+  .book-cancel-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .popup-content h3 {
+    font-size: 18px;
+  }
+
+  .checkmark {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+  }
+
+  .google-maps-layout {
+    position: relative;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .book-map-container {
+    position: static;
+    top: 0;
+    left: 0;
+    width: 90%;
+    height: 50% !important;
+    z-index: 1;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .sidebar {
+    position: relative !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+    transform: translateY(0) !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  .sidebar.show {
+    transform: translateY(0%);
+  }
+}
