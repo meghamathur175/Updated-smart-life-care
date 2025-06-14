@@ -1,0 +1,105 @@
+.partner-reset-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5;
+    padding: 1rem;
+}
+
+.partner-reset-box {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.partner-reset-box h2 {
+    font-size: 24px;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    color: #111827;
+    /* a dark gray for better contrast */
+}
+
+.partner-reset-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 2.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline-offset: 2px;
+    transition: border-color 0.3s ease;
+}
+
+.partner-reset-box input:focus {
+    border-color: #2563eb;
+    /* blue-600 */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
+
+.partner-reset-box p {
+    margin-bottom: 0.75rem;
+    font-size: 14px;
+    color: #dc2626;
+    /* Tailwind red-600 */
+}
+
+.partner-reset-box button {
+    width: 100%;
+    padding: 12px;
+    background-color: #2563eb;
+    /* blue-600 */
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.partner-reset-box button:hover:not(:disabled) {
+    background-color: #1d4ed8;
+}
+
+.partner-reset-box button:disabled {
+    background-color: #a5b4fc;
+    cursor: not-allowed;
+}
+
+.form-control {
+  width: 100%;
+  padding: 20px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.partner-password-toggle {
+  position: absolute;
+  top: 35%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 18px;
+}
+
+.text-danger {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* To properly position the password toggle, the input container should be relative */
+.partner-reset-box form {
+    position: relative;
+}

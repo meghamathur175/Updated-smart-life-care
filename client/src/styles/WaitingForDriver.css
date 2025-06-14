@@ -1,0 +1,93 @@
+/* Container Styling */
+.waiting-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Driver Info */
+.driver-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.driver-img {
+  height: 72px;
+  width: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4CAF50;
+}
+
+.driver-details {
+  flex: 1;
+}
+
+.driver-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #222;
+}
+
+.vehicle-plate {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #4CAF50;
+}
+
+.vehicle-model, .driver-duration {
+  font-size: 0.95rem;
+  color: #777;
+  margin-top: 0.2rem;
+}
+
+.ride-otp {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff5722;
+}
+
+/* Ride Info */
+.ride-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ride-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: #2976a3;
+  margin-top: 0.2rem;
+}
+
+.ride-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.ride-subtitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: -0.2rem;
+}
