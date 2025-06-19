@@ -1,0 +1,62 @@
+.driver-reset-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5;
+    padding: 1rem;
+}
+
+.driver-reset-box {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.driver-reset-box h2 {
+    font-size: 24px;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+.driver-reset-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.driver-reset-box p {
+    margin-bottom: 0.75rem;
+    font-size: 14px;
+    color: red;
+}
+
+.driver-reset-box button {
+    width: 100%;
+    padding: 12px;
+    background-color: #2563eb;
+    /* Tailwind's blue-600 */
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.driver-reset-box button:hover {
+    background-color: #1d4ed8;
+    /* Tailwind's blue-700 */
+}
+
+.driver-reset-box button:disabled {
+    background-color: #a5b4fc;
+    cursor: not-allowed;
+}
