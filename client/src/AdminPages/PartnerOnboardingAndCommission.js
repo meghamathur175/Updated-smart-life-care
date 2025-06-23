@@ -8,14 +8,14 @@ export default function AdminDashboard() {
     id: null,
     name: "",
     email: "",
-    location: "",
+    address: "",
     serviceAreas: "",
     commission: 3,
     hospitalPlaceId: "",
   });
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const YOUR_GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const apiUrl = "http://localhost:3001/api/partners";
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function AdminDashboard() {
     if (!form.name.trim()) errs.name = "Name is required";
     if (!form.email.trim()) errs.email = "Email is required";
     if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = "Email format is invalid";
-    if (!form.location.trim()) errs.location = "Location is required";
+    if (!form.address.trim()) errs.address = "Address is required";
     if (!form.serviceAreas.trim()) errs.serviceAreas = "Service areas required";
     if (!form.hospitalPlaceId.trim()) errs.hospitalPlaceId = "Hospital Place ID is required";
     if (Number(form.commission) < 3 || Number(form.commission) > 5)
@@ -61,17 +61,35 @@ export default function AdminDashboard() {
       return;
     }
 
+    // Convert address to coordinates using Google Geocoding API
+    const geoRes = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+        form.address
+      )}&key=${YOUR_GOOGLE_MAPS_API_KEY}`
+    );
+
+    const geoData = await geoRes.json();
+
+    if (!geoData.results || geoData.results.length === 0) {
+      alert("Failed to geocode the address. Please check the address.");
+      return;
+    }
+
+    const { lat, lng } = geoData.results[0].geometry.location;
+
+
     setErrors({});
     const payload = {
       name: form.name.trim(),
       email: form.email.trim(),
-      location: form.location.trim(),
+      address: form.address.trim(),
+      location: { type: "Point", coordinates: [lng, lat] },
       serviceAreas: form.serviceAreas.trim(),
       commission: Number(form.commission),
       hospitalPlaceId: form.hospitalPlaceId.trim(),
     };
 
-    console.log("Submitting data:", payload); 
+    console.log("Submitting data:", payload);
 
     try {
       if (isEditing) {
@@ -99,7 +117,7 @@ export default function AdminDashboard() {
       id: partner._id || partner.id, // to support both id formats
       name: partner.name,
       email: partner.email || "",
-      location: partner.location,
+      address: partner.address,
       serviceAreas: partner.serviceAreas,
       commission: partner.commission,
       hospitalPlaceId: partner.hospitalPlaceId || "",
@@ -130,7 +148,7 @@ export default function AdminDashboard() {
       id: null,
       name: "",
       email: "",
-      location: "",
+      address: "",
       serviceAreas: "",
       commission: 3,
       hospitalPlaceId: "",
@@ -177,18 +195,18 @@ export default function AdminDashboard() {
 
           <div>
             <label className="poa-label" htmlFor="location">
-              Location:
+              Address:
             </label>
             <input
-              id="location"
+              id="address"
               className="poa-input-text"
               type="text"
-              name="location"
-              value={form.location}
+              name="address"
+              value={form.address}
               onChange={handleChange}
             />
-            {errors.location && (
-              <small className="poa-error">{errors.location}</small>
+            {errors.address && (
+              <small className="poa-error">{errors.address}</small>
             )}
           </div>
 
