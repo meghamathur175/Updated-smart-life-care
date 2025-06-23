@@ -18,13 +18,13 @@ exports.getAllPartners = async (req, res) => {
 // POST: Add new partner
 exports.addPartner = async (req, res) => {
   try {
-    // console.log("Inside add Partner");
+    console.log("Inside add Partner");
     // console.log("Submitting Partner Data:", req.body);
 
-    const { name, location, serviceAreas, commission, hospitalPlaceId, email } = req.body;
+    const { name, address, serviceAreas, commission, hospitalPlaceId, email } = req.body;
 
     // Validate inputs
-    if (!name || !location || !serviceAreas || commission == null || !hospitalPlaceId || !email) {
+    if (!name || !address || !serviceAreas || commission == null || !hospitalPlaceId || !email) {
       return res.status(400).json({ message: "All fields are required, including email and hospitalPlaceId." });
     }
 
@@ -40,19 +40,32 @@ exports.addPartner = async (req, res) => {
       return res.status(400).json({ message: "Email is already associated with another partner." });
     }
 
-    // Trim values
-    const trimmedPlaceId = hospitalPlaceId.trim();
-    const trimmedEmail = email.trim().toLowerCase();
+    // Convert address to coordinates using Google Maps Geocoding API
+    const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
+    const geoUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${GOOGLE_MAPS_API_KEY}`;
+
+    const geoRes = await axios.get(geoUrl);
+    const geoData = geoRes.data;
+
+    if (!geoData.results || geoData.results.length === 0) {
+      return res.status(400).json({ message: "Invalid address. Could not find coordinates." });
+    }
+
+    const { lat, lng } = geoData.results[0].geometry.location;
 
     // Create new partner (without password yet)
     const newPartner = new Partner({
-      name,
-      location,
-      serviceAreas,
-      commission,
-      hospitalPlaceId: trimmedPlaceId,
-      email: trimmedEmail,
+      name: name.trim(),
+      hospitalPlaceId: hospitalPlaceId.trim(),
+      email: email.trim().toLowerCase(),
+      address: address.trim(),
+      serviceAreas: serviceAreas.trim(),
+      commission: Number(commission),
       password: null,
+      location: {
+        type: "Point",
+        coordinates: [lng, lat],
+      }
     });
 
     // Save partner
@@ -338,21 +351,19 @@ exports.rejectAndTransferRequest = async (req, res) => {
       return res.status(404).json({ message: "No other nearby hospitals available." });
     }
 
-    const newPartner = await Partner.findById(nearbyPartners[0]._id);
-    console.log("Calculated distance (meters):", nearbyPartners[0].distance);
-    console.log("📍 Pickup Coordinates:", pickupCoordinates);
-    console.log("📍 New Partner Coordinates:", newPartner.location.coordinates);
+    console.log("NearBy Hospitals in RATR: ", nearbyPartners);
 
+    const newPartner = await Partner.findById(nearbyPartners[0]._id);
 
     // Prepare new request copy for reassignment
     const originalRequestData = typeof request.toObject === "function" ? request.toObject() : { ...request };
 
     const reassignedRequest = {
-      ...originalRequestData, 
+      ...originalRequestData,
       partnerId: newPartner._id,
       status: "reassigned",
       distance: +(nearbyPartners[0].distance / 1000).toFixed(2),
-      timestamp: new Date(), // optional: refresh timestamp
+      timestamp: new Date(),
     };
 
     if (!Array.isArray(newPartner.pendingRequests)) {
