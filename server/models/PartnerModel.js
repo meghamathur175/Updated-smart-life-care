@@ -4,7 +4,7 @@ const partnerSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     hospitalPlaceId: { type: String, required: true, unique: true, trim: true },
-    address: { type: String, required: true, trim: true,},
+    address: { type: String, required: true, trim: true, },
     location: {
       type: { type: String, enum: ["Point"], required: true, default: "Point" },
       coordinates: { type: [Number], required: true }, // [lng, lat]
@@ -54,6 +54,8 @@ const partnerSchema = new mongoose.Schema(
         timestamp: { type: Date, default: Date.now, trim: true },
         bookingId: String,
         distance: { type: Number, min: 0 },
+        reassignedPartners: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Partner' }], 
+        reassignedPartnerNames: [String], 
       },
     ],
   },
@@ -63,4 +65,3 @@ const partnerSchema = new mongoose.Schema(
 // 2dsphere index for geospatial queries
 partnerSchema.index({ location: "2dsphere" });
 module.exports = mongoose.model("Partner", partnerSchema);
-
