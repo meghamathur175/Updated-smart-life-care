@@ -18,7 +18,6 @@ async function isRealEmail(email) {
         },
       }
     );
-
     return response.data.deliverability === "DELIVERABLE";
   } catch (error) {
     console.error("Email validation error:", error.message);
@@ -51,7 +50,7 @@ let register = async (req, res) => {
       });
     }
 
-    // Check for existing user
+    // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -60,12 +59,12 @@ let register = async (req, res) => {
       });
     }
 
-    // Hash password
+    // Hash the password
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    password = await bcrypt.hash(password, salt);
 
-    // Save new user
-    const user = new User({ name, email, password: hashedPassword });
+    // Create and save new user
+    const user = new User({ name, email, password });
     await user.save();
 
     res.status(201).json({
@@ -86,6 +85,7 @@ let login = async (req, res) => {
   try {
     let { email, password } = req.body;
 
+    // Validate email format
     if (!validator.isEmail(email)) {
       return res.status(400).json({
         status: "failed",
@@ -96,19 +96,18 @@ let login = async (req, res) => {
     email = email.trim().toLowerCase();
 
     const user = await User.findOne({ email });
+
     if (!user) {
-      return res.status(400).json({
-        status: "failed",
-        message: "Email is not registered",
-      });
+      return res
+        .status(400)
+        .json({ status: "failed", message: "User not found" });
     }
 
     const isValidPwd = await bcrypt.compare(password, user.password);
     if (!isValidPwd) {
-      return res.status(400).json({
-        status: "failed",
-        message: "Incorrect password",
-      });
+      return res
+        .status(400)
+        .json({ status: "failed", message: "Password not valid" });
     }
 
     const payload = { _id: user._id };
@@ -123,7 +122,7 @@ let login = async (req, res) => {
       });
     });
   } catch (error) {
-    res.status(500).json({ status: "failed", message: error.message });
+    res.send({ status: "failed", message: error.message });
   }
 };
 
@@ -181,9 +180,7 @@ let forgotPassword = async (req, res) => {
     });
   } catch (err) {
     console.error("Error:", err);
-    res
-      .status(500)
-      .send({ status: "failed", message: "Internal server error" });
+    res.status(500).send({ status: "failed", message: "Internal server error" });
   }
 };
 
@@ -202,9 +199,7 @@ let resetPassword = async (req, res) => {
     return res.json({ status: true, message: "Password updated successfully" });
   } catch (err) {
     console.error("Invalid or expired token", err);
-    res
-      .status(400)
-      .send({ status: false, message: "Invalid or expired token" });
+    res.status(400).send({ status: false, message: "Invalid or expired token" });
   }
 };
 
@@ -233,17 +228,15 @@ let makePayment = async (req, res) => {
     res.json({ id: session.id });
   } catch (error) {
     console.error("Error creating Stripe session:", error.message);
-    res
-      .status(500)
-      .json({ error: "An error occurred, please try again later." });
+    res.status(500).json({ error: "An error occurred, please try again later." });
   }
 };
 
 module.exports = {
-  register,
   login,
+  register,
   logout,
   forgotPassword,
   resetPassword,
-  makePayment,
+  makePayment, 
 };
