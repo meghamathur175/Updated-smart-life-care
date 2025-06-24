@@ -56,7 +56,7 @@ const LookingForDriver = () => {
           }
           else if (data.status.toLowerCase() === "rejected & reassigned") {
             setStatusMessage(`❌ Request rejected by ${hospital.name}.Request transferred to ${hospitalName}. Awaiting response...`);
-          } 
+          }
           else if (data.status.toLowerCase() === "reassigned") {
             setDriverAssigned(false);
             setDriver({
@@ -66,7 +66,7 @@ const LookingForDriver = () => {
               phone: "000-000-0000",
             });
             setStatusMessage(`Request is rejected by ${hospital.name}. Request transferred to ${hospitalName}. Awaiting response...`);
-          } 
+          }
           else if (data.status.toLowerCase() === "assigned") {
             setDriver({
               name: data.driverName,
@@ -75,8 +75,13 @@ const LookingForDriver = () => {
               phone: data.phone,
             });
 
+            if (data.hospitalName && data.hospitalName !== hospitalName) {
+              setHospitalName(data.hospitalName);
+            }
+
             setDriverAssigned(true);
-            setStatusMessage(`✅ Driver assigned by ${hospitalName}`);
+            // setStatusMessage(`✅ Driver assigned by ${hospitalName}`);
+            setStatusMessage(`✅ Driver assigned by ${data.hospitalName || hospitalName}`);
             clearInterval(interval);
           }
         }
