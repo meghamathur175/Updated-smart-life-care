@@ -26,7 +26,7 @@ function Request() {
           }
         );
 
-        console.log("Requests fetched: ", res.data);
+        // console.log("Requests fetched: ", res.data);
         setPartnerName(localStorage.getItem("partnerName") || "Partner");
         setRequests(res.data || []);
 
@@ -53,6 +53,7 @@ function Request() {
           partnerId,
           bookingId: requests[index].bookingId,
           pickup: requests[index].pickup,
+          reassignedPartners: requests[index].reassignedPartners || [],
         });
         console.log("Res in updateStatus of Request: ", res.data);
         alert(`✅ Rejected and transferred to: ${res.data.reassignedTo?.name || "Unknown"}`);
