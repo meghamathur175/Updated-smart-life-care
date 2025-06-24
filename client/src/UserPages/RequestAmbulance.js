@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import "../styles/RequestAmbulance.css";
-import { Link, useNavigate } from "react-router-dom";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
 
 function RequestAmbulance() {
   const pickupRef = useRef(null);
@@ -9,7 +8,6 @@ function RequestAmbulance() {
   const markerRef = useRef(null);
   const navigate = useNavigate();
   const [navigating, setNavigating] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const directionsServiceRef = useRef(null);
   const directionsRendererRef = useRef(null);
   const geocoderRef = useRef(null);
@@ -53,13 +51,6 @@ function RequestAmbulance() {
 
     return () => document.body.classList.remove("menu-open");
   }, []);
-
-  const toggleMenu = () => {
-    setMenuOpen((prev) => {
-      document.body.classList.toggle("menu-open", !prev);
-      return !prev;
-    });
-  };
 
   const fetchNearbyHospitals = () => {
     const address = pickupRef.current.value.trim();
@@ -129,24 +120,9 @@ function RequestAmbulance() {
 
   return (
     <div className="request-layout">
-      <nav className="request-navbar">
-        <div className="request-navbar-content">
-          <div className="request-navbar-logo">
-            <h2>Life+</h2>
-          </div>
-          <div className={`request-navbar-links ${menuOpen ? "request-open" : ""}`}>
-            <Link to="/track-ambulance" className="request-nav-link">Track Ambulance</Link>
-            <Link to="/signin" className="request-nav-link">Login</Link>
-          </div>
-          <button className="request-menu-toggle" onClick={toggleMenu}>
-            {menuOpen ? <span className="home-close-icon">&times;</span> : <GiHamburgerMenu size={28} color="#2563eb" />}
-          </button>
-        </div>
-      </nav>
-
       <div className="content-container">
         <div className="map-section">
-          <div id="map" style={{ height: "100vh", width: "100%" }}></div>
+          <div id="map"></div>
         </div>
 
         <div className="form-section">
