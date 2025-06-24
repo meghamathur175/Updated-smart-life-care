@@ -259,6 +259,7 @@ exports.confirmRequestToPartner = async (req, res) => {
       bookingId,
       pickupDistanceKm,
       distance: +(nearestPartner[0].distance / 1000).toFixed(2), // in km
+      reassignedPartners: [partner._id],
     };
 
     // console.log("REQUEST PartnerController: ", request);
@@ -306,7 +307,8 @@ exports.rejectAndTransferRequest = async (req, res) => {
   try {
     console.log("Received rejection body:", req.body);
 
-    const { partnerId, bookingId, pickup } = req.body;
+    const { partnerId, bookingId, pickup, reassignedPartners = [] } = req.body;
+    const updatedReassignedPartners = [...reassignedPartners, partnerId];
 
     if (!partnerId || !bookingId || !pickup) {
       return res.status(400).json({ message: "Missing required fields." });
@@ -341,7 +343,7 @@ exports.rejectAndTransferRequest = async (req, res) => {
       },
       {
         $match: {
-          _id: { $ne: new mongoose.Types.ObjectId(partnerId) },
+          _id: { $nin: updatedReassignedPartners.map(id => new mongoose.Types.ObjectId(id)) },
         },
       },
       { $limit: 1 },
@@ -364,6 +366,7 @@ exports.rejectAndTransferRequest = async (req, res) => {
       status: "reassigned",
       distance: +(nearbyPartners[0].distance / 1000).toFixed(2),
       timestamp: new Date(),
+      reassignedPartners: updatedReassignedPartners,
     };
 
     if (!Array.isArray(newPartner.pendingRequests)) {
