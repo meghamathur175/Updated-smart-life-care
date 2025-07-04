@@ -1,0 +1,298 @@
+/* === Driver Dashboard Popup - Premium Styling === */
+
+.driver-dashboard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.driver-dashboard-popup {
+  width: 95%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  animation: slideUp 0.4s ease;
+  position: relative;
+  transition: transform 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.deny-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #fff;
+  color: #d32f2f;
+  border: 2px solid #fbb;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+.deny-button:hover {
+  background: #ffe9e9;
+  color: #a30000;
+  border-color: #faa;
+}
+
+.map-placeholder {
+  width: 100%;
+  height: 220px;
+  background: #e0e0e0;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.popup-card {
+  padding: 20px;
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+.order-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.new-order-badge {
+  background: #e6f7f0;
+  color: #007e4f;
+  font-weight: 600;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  border-radius: 50px;
+  display: inline-block;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.order-header h2 {
+  font-size: 1.2rem;
+  margin: 6px 0;
+  color: #333;
+  font-weight: 600;
+}
+
+.earnings {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00b864;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+.distances {
+  color: #666;
+  font-size: 1rem;
+  margin-top: 6px;
+}
+
+.pickup-details {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 16px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.02);
+}
+
+.pickup-label {
+  font-size: 0.9rem;
+  color: #777;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.pickup-address {
+  font-size: 1.1rem;
+  color: #222;
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.eta {
+  font-size: 0.95rem;
+  color: #444;
+  margin-top: 4px;
+}
+
+.accept-button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  background-color: #00a859;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 14px rgba(0, 168, 89, 0.3);
+}
+.accept-button:hover {
+  background-color: #008e4e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 168, 89, 0.4);
+}
+.accept-button:disabled {
+  background: #ccc;
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.timer-bar {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+.emergency-type {
+  font-size: 1rem;
+  color: #d32f2f;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+/* New enhanced styles for location section */
+.driver-dashboard-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.location-info {
+  background-color: #f5f7fa;
+  border: 1px solid #dce3ec;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.location-info strong {
+  color: #333;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.current-address {
+  font-size: 1.1rem;
+  color: #0077cc;
+  background: #ecf5ff;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 5px;
+  word-wrap: break-word;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.03);
+}
+
+.manual-location-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.manual-location-form input {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.manual-location-form button {
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  background-color: #0077cc;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.manual-location-form button:hover {
+  background-color: #005fa3;
+}
+
+.autocomplete-wrapper {
+  position: relative;
+}
+
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.suggestions-list > div {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions-list > div:hover {
+  background-color: #f0f0f0;
+}
+
+.pickup-drop-details {
+  text-align: left;
+  color: #444;
+  font-size: 0.95rem;
+  margin-top: 12px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.pickup-drop-details div {
+  margin-bottom: 6px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 500px) {
+  .driver-dashboard-popup {
+    max-width: 100vw;
+    border-radius: 0;
+  }
+  .popup-card {
+    padding: 14px 12px;
+  }
+}
