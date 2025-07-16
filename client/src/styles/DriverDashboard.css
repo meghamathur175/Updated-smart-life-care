@@ -1,0 +1,55 @@
+.driver-dashboard {
+  max-width: 800px;
+  margin: 2rem auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1rem 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.status-btn {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.status-btn.available {
+  background-color: #28a745;
+}
+
+.status-btn.on-duty {
+  background-color: #ffc107;
+}
+
+.current-trip,
+.trip-history {
+  margin-bottom: 2rem;
+}
+
+.current-trip h2,
+.trip-history h2 {
+  border-bottom: 2px solid #343a40;
+  padding-bottom: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.trip-history ul {
+  list-style: disc inside;
+  padding-left: 0;
+}
+
+.trip-history li {
+  margin-bottom: 0.5rem;
+}
