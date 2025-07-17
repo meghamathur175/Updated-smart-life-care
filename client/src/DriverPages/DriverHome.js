@@ -76,7 +76,7 @@ const DriverHome = () => {
 
   useEffect(() => {
     if (driver?._id) socket.emit("register_driver", driver._id);
-    console.log("🔌 Registering driver with ID:", driver._id);
+    // console.log("Registering driver with ID:", driver._id);
 
     axios.get(`http://localhost:3001/api/drivers/${driver._id}`).then((res) => {
       setDriverStatus(res.data.status || "offline");
@@ -98,16 +98,21 @@ const DriverHome = () => {
       setAcceptedRequestId(null);
 
       let driverCoords = null;
-      try {
-        const position = await new Promise((resolve, reject) =>
-          navigator.geolocation.getCurrentPosition(resolve, reject)
-        );
-        driverCoords = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        setDriverLatLng(driverCoords);
-      } catch (err) { }
+
+      if (isManualLocation && driverLatLng) {
+        driverCoords = driverLatLng;
+      } else {
+        try {
+          const position = await new Promise((resolve, reject) =>
+            navigator.geolocation.getCurrentPosition(resolve, reject)
+          );
+          driverCoords = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          setDriverLatLng(driverCoords);
+        } catch (err) { }
+      }
 
       try {
         const geocoder = new window.google.maps.Geocoder();
@@ -128,12 +133,39 @@ const DriverHome = () => {
         );
         const dropCoords = geocodeDrop[0].geometry.location;
 
+        // let driverToPickupDistance = "", driverToPickupEta = "";
+        // if (driverCoords) {
+        //   const { distance, eta } = await getRouteDetails(driverCoords, pickupCoords);
+        //   driverToPickupDistance = distance;
+        //   driverToPickupEta = eta;
+        // }
+
+
         let driverToPickupDistance = "", driverToPickupEta = "";
+
+        // Helper: Compare lat/lng approx.
+        const areCoordsEqual = (a, b, precision = 6) => {
+          const round = (num) => Number(num).toFixed(precision);
+          return round(a.lat) === round(b.lat()) && round(a.lng) === round(b.lng());
+        };
+
         if (driverCoords) {
-          const { distance, eta } = await getRouteDetails(driverCoords, pickupCoords);
-          driverToPickupDistance = distance;
-          driverToPickupEta = eta;
+          const isSameLoc = areCoordsEqual(driverCoords, pickupCoords);
+          console.log("📍 Using driverCoords in route calc:", driverCoords);
+          if (isSameLoc) {
+            driverToPickupDistance = "0 m";
+            driverToPickupEta = "At location";
+          } else {
+            const { distance, eta } = await getRouteDetails(driverCoords, pickupCoords);
+            driverToPickupDistance = distance;
+            driverToPickupEta = eta;
+          }
         }
+
+
+
+        console.log("📍 Driver Coordinates:", driverCoords);
+        console.log("📍 Pickup Coordinates:", pickupCoords.lat(), pickupCoords.lng());
 
         const { distance, eta } = await getRouteDetails(pickupCoords, dropCoords);
         setIncomingRequest({
@@ -244,6 +276,7 @@ const DriverHome = () => {
 
     try {
       const results = await geocodeByAddress(address);
+
       if (!results || results.length === 0) {
         alert("No matching address found. Please enter a more precise location.");
         return;
@@ -252,11 +285,11 @@ const DriverHome = () => {
       // Safe way to extract coordinates
       const { lat, lng } = await getLatLng(results[0]);
       const coords = { lat: parseFloat(lat), lng: parseFloat(lng) };
+      console.log("COORDS: ", coords);
 
       // Update driver location states and backend
       setManualLocation({ ...coords, label: address });
       setDriverLatLng(coords);
-      setIsManualLocation(true);
       localStorage.setItem("isManualLocation", "true");
 
       await axios.post("http://localhost:3001/api/drivers/update-location", {
@@ -266,8 +299,13 @@ const DriverHome = () => {
       });
 
       const updatedAddress = results[0].formatted_address;
+      console.log("updatedAddress: ", updatedAddress);
+
       setCurrentAddress(updatedAddress);
 
+      setTimeout(() => {
+        setIsManualLocation(true); // Delay to ensure it's set before request arrives
+      }, 100);
       alert("Location updated!");
       setAddress(""); // Clear input
     } catch (err) {
@@ -381,14 +419,6 @@ const DriverHome = () => {
   const handleNavigateClick = () => {
     alert("Opening Google Maps for navigation...");
   };
-
-  // useEffect(() => {
-  //   console.log("✅ Updated Trip Overlay State:", {
-  //     tripOverlay: showTripOverlay,
-  //     pickupCoords,
-  //     directions,
-  //   });
-  // }, [showTripOverlay, pickupCoords, directions]);
 
   const handleNavigate = () => {
     const originLat = driverLatLng?.lat;
